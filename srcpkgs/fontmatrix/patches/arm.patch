@@ -1,0 +1,19 @@
+source: https://github.com/fontmatrix/fontmatrix/pull/5/commits/33cc6af6696b8e54ea2b3287de44339c8fa1e7e7
+
+On ARM qrear is float instead of double
+- http://doc.qt.io/qt-4.8/qtglobal.html#qreal-typedef
+so, in fminfodisplay.cpp, a cast is needed from qfloat to double  in
+FMInfoDisplay::writeSVGPreview for a qMax test.
+
+--- src/fminfodisplay.cpp.orig	2009-07-03 17:17:39.000000000 +0200
++++ src/fminfodisplay.cpp	2017-08-13 21:09:15.260937588 +0200
+@@ -152,7 +152,8 @@
+ 				GlyphToSVGHelper gtsh ( gpi->path(), tf );
+ 				svg += gtsh.getSVGPath() + "\n";
+ 				horOffset += gpi->data(GLYPH_DATA_HADVANCE).toDouble() * scaleFactor;
+-				maxHeight = qMax ( gtsh.getRect().height(), maxHeight );
++				/* cast gtsh.height from qreal (float on ARM) to double so qMax can be done */
++				maxHeight = qMax ( (double) gtsh.getRect().height(), maxHeight );
+ 				tf.translate( gpi->data(GLYPH_DATA_HADVANCE).toDouble()  * scaleFactor,0 );
+ 				delete gpi;
+ 			}

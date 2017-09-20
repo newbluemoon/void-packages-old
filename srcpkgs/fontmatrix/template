@@ -1,0 +1,17 @@
+# Template file for 'fontmatrix'
+pkgname=fontmatrix
+version=0.6.0
+revision=1
+build_style=cmake
+hostmakedepends="pkg-config"
+makedepends="qt-devel qt-webkit-devel freetype-devel fontconfig-devel MesaLib-devel"
+short_desc="Free font collections manager"
+maintainer="newbluemoon <blaumolch@mailbox.org>"
+license="GPL-2"
+homepage="https://github.com/fontmatrix/fontmatrix"
+distfiles="https://github.com/${pkgname}/${pkgname}/archive/v${version}.tar.gz"
+checksum=fa3ca2b189115c24c628f15334e0b506298d7a16e294bcc21bde79cba9c44a84
+
+if [ -n "$CROSS_BUILD" ]; then
+	hostmakedepends+=" qt-devel"
+fi
